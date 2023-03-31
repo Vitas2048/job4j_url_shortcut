@@ -1,7 +1,6 @@
 package ru.job4j.shortcut.service;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

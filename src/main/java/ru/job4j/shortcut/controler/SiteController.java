@@ -57,7 +57,7 @@ public class SiteController {
         var login = RandomStringUtils.randomAlphanumeric(7);
         site.setLogin(login);
         site.setPassword(encoder.encode(password));
-        var body = new HashMap<>(){{
+        var body = new HashMap<>() {{
             put("registration", true);
             put("login", login);
             put("password", password);
@@ -65,7 +65,7 @@ public class SiteController {
         try {
             sites.save(site);
         } catch (Exception e) {
-            body = new HashMap<>(){{
+            body = new HashMap<>() {{
                 put("registration", false);
                 put("login", "");
                 put("password", "");
