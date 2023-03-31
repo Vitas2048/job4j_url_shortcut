@@ -2,6 +2,7 @@ package ru.job4j.shortcut.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.shortcut.model.Url;
 import ru.job4j.shortcut.repository.UrlRepository;
 
@@ -22,5 +23,9 @@ public class UrlService {
 
     public Url findByCode(String code) {
         return repository.findByCode(code);
+    }
+    @Transactional
+    public void incrementByCode(String code) {
+        repository.incrementByCode(code);
     }
 }

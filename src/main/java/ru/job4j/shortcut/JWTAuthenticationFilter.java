@@ -33,6 +33,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public static final String REGISTRATION_URL = "/sites/registration";
 
+    public static final String REDIRECT_URL = "/sites/redirect/*";
+
     private AuthenticationManager auth;
 
     @Override
