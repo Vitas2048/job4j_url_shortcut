@@ -1,4 +1,4 @@
-package ru.job4j.shortcut;
+package ru.job4j.shortcut.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +14,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.job4j.shortcut.service.UserDetailsServiceImpl;
 
-import static ru.job4j.shortcut.JWTAuthenticationFilter.REDIRECT_URL;
-import static ru.job4j.shortcut.JWTAuthenticationFilter.REGISTRATION_URL;
+import static ru.job4j.shortcut.config.JWTAuthenticationFilter.REDIRECT_URL;
+import static ru.job4j.shortcut.config.JWTAuthenticationFilter.REGISTRATION_URL;
 
 @EnableWebSecurity
 @AllArgsConstructor

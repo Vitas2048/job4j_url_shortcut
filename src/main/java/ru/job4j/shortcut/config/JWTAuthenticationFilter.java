@@ -1,4 +1,4 @@
-package ru.job4j.shortcut;
+package ru.job4j.shortcut.config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

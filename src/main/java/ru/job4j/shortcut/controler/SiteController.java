@@ -42,8 +42,7 @@ public class SiteController {
 
     @GetMapping("/redirect/{code}")
     public ResponseEntity<String> redirect(@PathVariable String code) {
-        if (urls.findByCode(code) != null) {
-            urls.incrementByCode(code);
+        if (urls.incrementIfPresentByCode(code)) {
             return ResponseEntity
                     .status(HttpStatus.FOUND).build();
         }
@@ -58,24 +57,24 @@ public class SiteController {
         site.setLogin(login);
         site.setPassword(encoder.encode(password));
         var body = new HashMap<>() {{
-            put("registration", true);
-            put("login", login);
-            put("password", password);
+            put("registration", false);
+            put("login", "");
+            put("password", "");
         }}.toString();
         try {
             sites.save(site);
         } catch (Exception e) {
-            body = new HashMap<>() {{
-                put("registration", false);
-                put("login", "");
-                put("password", "");
-            }}.toString();
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .contentType(MediaType.TEXT_PLAIN)
                     .contentLength(body.length())
                     .body(body);
         }
+        body = new HashMap<>() {{
+            put("registration", true);
+            put("login", login);
+            put("password", password);
+        }}.toString();
         return ResponseEntity.
                 status(HttpStatus.CREATED)
                 .contentType(MediaType.TEXT_PLAIN)
@@ -85,9 +84,7 @@ public class SiteController {
 
     @GetMapping("/all")
     public ResponseEntity<String> findAll() {
-        var map = new HashMap<>();
-        sites.findAll().forEach(p -> map.put(p.getId(), p.getLogin()));
-        var body = map.toString();
+        var body = sites.toJson(sites.toMapByIdLogin(sites.findAll()));
         return ResponseEntity.status(HttpStatus.OK)
                 .header("List of sites", "Successful")
                 .contentType(MediaType.TEXT_PLAIN)
@@ -97,11 +94,7 @@ public class SiteController {
 
     @GetMapping("/statistic")
     public ResponseEntity<String> getStatistic() {
-        var allUrls = urls.findAll();
-        var preBody = new HashMap<>();
-        allUrls.forEach(u -> preBody.put(System.lineSeparator() + "{url: " + u.getUrl(),
-                "total: " + u.getCount() + "}"));
-        var body = preBody.toString().replace("=", ", ");
+        var body = sites.toJson(urls.mapBuUrlCount(urls.findAll()));
         return ResponseEntity.status(HttpStatus.OK)
                 .header("Statistic", "Successful")
                 .contentType(MediaType.TEXT_PLAIN)
