@@ -14,6 +14,7 @@ import ru.job4j.shortcut.service.SiteService;
 import ru.job4j.shortcut.service.UrlService;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/sites")
@@ -56,11 +57,11 @@ public class SiteController {
         var login = RandomStringUtils.randomAlphanumeric(7);
         site.setLogin(login);
         site.setPassword(encoder.encode(password));
-        var body = new HashMap<>() {{
-            put("registration", false);
-            put("login", "");
-            put("password", "");
-        }}.toString();
+        var body = sites.toJson(Map.of(
+            "registration", false,
+            "login", "",
+            "password", ""
+        ));
         try {
             sites.save(site);
         } catch (Exception e) {
@@ -70,11 +71,11 @@ public class SiteController {
                     .contentLength(body.length())
                     .body(body);
         }
-        body = new HashMap<>() {{
-            put("registration", true);
-            put("login", login);
-            put("password", password);
-        }}.toString();
+        body = Map.of(
+            "registration", true,
+            "login", login,
+            "password", password
+        ).toString();
         return ResponseEntity.
                 status(HttpStatus.CREATED)
                 .contentType(MediaType.TEXT_PLAIN)

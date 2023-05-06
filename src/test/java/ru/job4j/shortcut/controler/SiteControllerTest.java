@@ -19,6 +19,7 @@ import ru.job4j.shortcut.service.UrlService;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -71,9 +72,7 @@ public class SiteControllerTest {
     @Test
     @WithMockUser
     public void whenRegistration() throws Exception {
-        var body = new HashMap<>() {{
-            put("site", "sap.com");
-        }};
+        var body = Map.of("site", "sap.com");
         var om = new ObjectMapper().writeValueAsString(body);
         this.mvc.perform(post("/sites/registration")
                         .contentType(MediaType.APPLICATION_JSON)

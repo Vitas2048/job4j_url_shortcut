@@ -1,5 +1,4 @@
-## job4j_url_shortcut
-## Сервис - UrlShortCut
+## Проект - Шифрование URL
 
 ### Описание проекта
 
@@ -23,6 +22,8 @@
 * PostgresSQL 15
 * Apache Maven 3.8
 * Postman
+* Minikube
+* Kubectl
 
 ### Запуск проекта 
 
@@ -37,6 +38,39 @@
 7. При помощи терминала перейдите в папку с исходным кодом и выполните команду: ``mvn spring-boot:run`` <br><br>
 ![mvnRun](files/mvnRun.png)
 
+### Запуск проекта с помощью minikube и kubectl
+
+1. Запустить кластер с помощью команды в терминале:
+```shell
+minikube start
+```
+![clusterRunning](files/minikub.png)
+
+2. Перейти в папку kubernetes и выполнить команды:
+```shell
+kubectl apply -f postgresdb-secret.yml
+```
+``` shell
+kubectl apply -f postgresdb-configmap.yml
+```
+```shell
+kubectl apply -f springboot-deployment.yml 
+```
+3. Проверить состояние наличие подов при помощи команды (дождаться пока значение Ready не станет 1):
+```shell
+kubectl get pods
+```
+![pods](files/pods.png)
+
+4. Запустить SpringBoot приложение в класетере:
+```shell
+minikube service spring-boot-service
+```
+![launch](files/launch.png)
+
+5. Приложение автоматически откроется в браузере, но для дальнейшей 
+работы необходимо вопользоваться Postman (вместо localhost:8080, 
+указать URL, который открылся в браузере или скопировать с таблицы в терминале)
 ### Взаимодействие с приложением
  
 1. Регистрация 
